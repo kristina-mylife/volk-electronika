@@ -40,7 +40,9 @@
                 <button class="btn-mode" data-mode="a">ИГРА А</button>
                 <button class="btn-mode" data-mode="b">ИГРА Б</button>
               </div>
-              <p class="overlay-hint">Выберите режим и нажмите для старта</p>
+              <button class="btn-mode btn-install" id="installBtn" hidden>📲 Установить на экран</button>
+              <p class="overlay-hint" id="installHint">Выберите режим и нажмите для старта</p>
+              <p class="overlay-hint overlay-install-manual" id="manualInstallHint" hidden>Меню браузера (⋮) → «Добавить на гл. экран»</p>
             </div>
           </div>
           <div class="game-overlay game-over" id="gameOverScreen" hidden>
@@ -79,6 +81,35 @@
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js');
+    }
+    const isInstalled = () =>
+      window.matchMedia('(display-mode: standalone)').matches ||
+      window.matchMedia('(display-mode: fullscreen)').matches ||
+      window.matchMedia('(display-mode: minimal-ui)').matches ||
+      navigator.standalone === true;
+
+    let deferredPrompt;
+    if (!isInstalled()) {
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        document.getElementById('installBtn').hidden = false;
+        document.getElementById('manualInstallHint').hidden = true;
+      });
+      document.getElementById('installBtn')?.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') document.getElementById('installBtn').hidden = true;
+      });
+      if (/Android|iPhone|iPad/i.test(navigator.userAgent)) {
+        setTimeout(() => {
+          if (!deferredPrompt && !isInstalled()) document.getElementById('manualInstallHint').hidden = false;
+        }, 1500);
+      }
+    } else {
+      document.getElementById('installBtn').hidden = true;
+      document.getElementById('manualInstallHint').hidden = true;
     }
   </script>
 </body>
