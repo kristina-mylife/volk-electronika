@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="theme-color" content="#2d5016">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Ну, погоди!">
+  <meta name="description" content="Электроника ИМ-02 — Ну, погоди! Волк ловит яйца">
+  <title>Ну, погоди! — Электроника ИМ-02</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="device">
+    <header class="device-header">
+      <span class="logo">ИМ</span>
+      <h1 class="title">НУ, ПОГОДИ!</h1>
+    </header>
+
+    <main class="game-area">
+      <aside class="buttons-left">
+        <button class="btn-move" data-target="tl" aria-label="Верх-лево">
+          <span class="btn-inner"></span>
+        </button>
+        <button class="btn-move" data-target="bl" aria-label="Низ-лево">
+          <span class="btn-inner"></span>
+        </button>
+      </aside>
+
+      <div class="screen-frame">
+        <div class="screen-inner">
+          <div class="game-overlay" id="gameOverlay">
+            <div class="overlay-content">
+              <p class="overlay-title">НУ, ПОГОДИ!</p>
+              <p class="overlay-subtitle">ЭЛЕКТРОНИКА</p>
+              <div class="mode-buttons">
+                <button class="btn-mode" data-mode="a">ИГРА А</button>
+                <button class="btn-mode" data-mode="b">ИГРА Б</button>
+              </div>
+              <p class="overlay-hint">Выберите режим и нажмите для старта</p>
+            </div>
+          </div>
+          <div class="game-overlay game-over" id="gameOverScreen" hidden>
+            <div class="overlay-content">
+              <p class="overlay-title">ИГРА ОКОНЧЕНА</p>
+              <p class="overlay-score">Очки: <span id="finalScore">0</span></p>
+              <button class="btn-mode" id="restartBtn">ИГРАТЬ СНОВА</button>
+            </div>
+          </div>
+          <div class="game-canvas-wrapper">
+            <canvas id="gameCanvas"></canvas>
+          </div>
+          <div class="game-hud">
+            <span class="score">0</span>
+            <span class="penalties"></span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="buttons-right">
+        <button class="btn-move" data-target="tr" aria-label="Верх-право">
+          <span class="btn-inner"></span>
+        </button>
+        <button class="btn-move" data-target="br" aria-label="Низ-право">
+          <span class="btn-inner"></span>
+        </button>
+      </aside>
+    </main>
+
+    <footer class="device-footer">
+      <span>ЭЛЕКТРОНИКА</span>
+    </footer>
+  </div>
+
+  <script src="game.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
+</body>
+</html>
