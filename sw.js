@@ -1,4 +1,4 @@
-const CACHE_NAME = 'nupogodi-v3';
+const CACHE_NAME = 'nupogodi-v4';
 
 self.addEventListener('install', (e) => {
   e.waitUntil(
