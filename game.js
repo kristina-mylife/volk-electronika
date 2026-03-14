@@ -52,106 +52,142 @@
   // ─── Draw: Wolf ───────────────────────────────────────────────────────────────
   // Wolf faces RIGHT by default; flipH mirrors it left.
   // cx/cy = centre of wolf torso.
+  // Wolf drawn in running pose (leaning forward), facing RIGHT by default.
+  // Resembles the iconic «Ну, погоди!» LCD wolf: big pointy ears, long snout,
+  // bent running legs, basket extended forward.
   function drawWolf(cx, cy, s, flipH) {
     ctx.save();
     ctx.translate(cx, cy);
     if (flipH) ctx.scale(-1, 1);
+    // lean forward
+    ctx.rotate(0.18);
 
     ctx.fillStyle   = FG;
     ctx.strokeStyle = FG;
     ctx.lineCap     = 'round';
     ctx.lineJoin    = 'round';
 
-    // Tail (behind body)
+    // ── Tail — sweeping up-back ───────────────────────────────────
     ctx.beginPath();
-    ctx.moveTo(-s * 0.28, s * 0.22);
-    ctx.bezierCurveTo(-s * 0.85, s * 0.05, -s * 1.0, -s * 0.45, -s * 0.7, -s * 0.7);
-    ctx.lineWidth = s * 0.2;
+    ctx.moveTo(-s * 0.35, -s * 0.1);
+    ctx.bezierCurveTo(-s * 0.9, -s * 0.2, -s * 1.1, -s * 0.9, -s * 0.75, -s * 1.1);
+    ctx.lineWidth = s * 0.22;
+    ctx.strokeStyle = FG;
     ctx.stroke();
-    // Tail tip fluffy
+    // fluffy tip
     ctx.beginPath();
-    ctx.arc(-s * 0.7, -s * 0.73, s * 0.14, 0, Math.PI * 2);
+    ctx.arc(-s * 0.75, -s * 1.12, s * 0.18, 0, Math.PI * 2);
     ctx.fill();
 
-    // Body
+    // ── Back leg (straight, pushing off) ─────────────────────────
+    ctx.strokeStyle = FG;
+    ctx.lineWidth   = s * 0.22;
     ctx.beginPath();
-    ctx.ellipse(0, 0, s * 0.38, s * 0.58, 0, 0, Math.PI * 2);
+    ctx.moveTo(-s * 0.18, s * 0.32);
+    ctx.lineTo(-s * 0.38, s * 0.72);
+    ctx.lineTo(-s * 0.52, s * 0.95);
+    ctx.stroke();
+    // back paw
+    ctx.beginPath();
+    ctx.ellipse(-s * 0.56, s * 0.98, s * 0.2, s * 0.1, -0.4, 0, Math.PI * 2);
     ctx.fill();
 
-    // Back arm
+    // ── Body — oval tilted forward ────────────────────────────────
     ctx.beginPath();
-    ctx.ellipse(-s * 0.26, -s * 0.08, s * 0.13, s * 0.3, -0.25, 0, Math.PI * 2);
+    ctx.ellipse(0, 0, s * 0.42, s * 0.62, -0.2, 0, Math.PI * 2);
     ctx.fill();
 
-    // Left leg
+    // ── Back arm swinging behind ──────────────────────────────────
+    ctx.lineWidth = s * 0.2;
     ctx.beginPath();
-    ctx.ellipse(-s * 0.18, s * 0.72, s * 0.14, s * 0.26, 0.18, 0, Math.PI * 2);
-    ctx.fill();
-    // Right leg
+    ctx.moveTo(-s * 0.3, -s * 0.15);
+    ctx.quadraticCurveTo(-s * 0.65, s * 0.1, -s * 0.58, s * 0.42);
+    ctx.stroke();
+
+    // ── Front leg (bent, reaching forward) ───────────────────────
+    ctx.lineWidth = s * 0.22;
     ctx.beginPath();
-    ctx.ellipse(s * 0.16, s * 0.76, s * 0.14, s * 0.26, -0.18, 0, Math.PI * 2);
+    ctx.moveTo(s * 0.18, s * 0.32);
+    ctx.lineTo(s * 0.42, s * 0.65);
+    ctx.lineTo(s * 0.62, s * 0.82);
+    ctx.stroke();
+    // front paw
+    ctx.beginPath();
+    ctx.ellipse(s * 0.67, s * 0.84, s * 0.2, s * 0.1, 0.5, 0, Math.PI * 2);
     ctx.fill();
 
-    // Neck
+    // ── Neck ──────────────────────────────────────────────────────
     ctx.beginPath();
-    ctx.ellipse(s * 0.1, -s * 0.52, s * 0.2, s * 0.22, 0.2, 0, Math.PI * 2);
+    ctx.ellipse(s * 0.22, -s * 0.58, s * 0.22, s * 0.26, -0.3, 0, Math.PI * 2);
     ctx.fill();
 
-    // Head
+    // ── Head ──────────────────────────────────────────────────────
     ctx.beginPath();
-    ctx.arc(s * 0.14, -s * 0.8, s * 0.3, 0, Math.PI * 2);
+    ctx.arc(s * 0.3, -s * 0.9, s * 0.33, 0, Math.PI * 2);
     ctx.fill();
 
-    // Ear left
+    // ── Ear back (left) — tall triangle ──────────────────────────
     ctx.beginPath();
-    ctx.moveTo(-s * 0.04, -s * 1.04);
-    ctx.lineTo(-s * 0.16, -s * 1.42);
-    ctx.lineTo(s * 0.1, -s * 1.2);
+    ctx.moveTo(s * 0.06, -s * 1.1);
+    ctx.lineTo(-s * 0.08, -s * 1.58);
+    ctx.lineTo(s * 0.22, -s * 1.28);
     ctx.closePath();
     ctx.fill();
-    // Ear right
+
+    // ── Ear front (right) — tall triangle ────────────────────────
     ctx.beginPath();
-    ctx.moveTo(s * 0.22, -s * 1.06);
-    ctx.lineTo(s * 0.34, -s * 1.44);
-    ctx.lineTo(s * 0.46, -s * 1.14);
+    ctx.moveTo(s * 0.36, -s * 1.14);
+    ctx.lineTo(s * 0.46, -s * 1.62);
+    ctx.lineTo(s * 0.62, -s * 1.24);
     ctx.closePath();
     ctx.fill();
 
-    // Snout
+    // ── Long snout pointing right ─────────────────────────────────
     ctx.beginPath();
-    ctx.ellipse(s * 0.45, -s * 0.8, s * 0.2, s * 0.14, 0, 0, Math.PI * 2);
+    ctx.moveTo(s * 0.46, -s * 0.82);
+    ctx.bezierCurveTo(s * 0.7, -s * 0.78, s * 0.95, -s * 0.72, s * 1.05, -s * 0.64);
+    ctx.bezierCurveTo(s * 0.95, -s * 0.58, s * 0.7, -s * 0.58, s * 0.46, -s * 0.72);
+    ctx.closePath();
     ctx.fill();
-    // Nose
+    // nose tip
     ctx.beginPath();
-    ctx.arc(s * 0.64, -s * 0.82, s * 0.08, 0, Math.PI * 2);
+    ctx.arc(s * 1.04, -s * 0.64, s * 0.09, 0, Math.PI * 2);
     ctx.fill();
 
-    // Eye (light cutout)
+    // ── Eye cutout ────────────────────────────────────────────────
     ctx.fillStyle = BG;
     ctx.beginPath();
-    ctx.arc(s * 0.26, -s * 0.88, s * 0.09, 0, Math.PI * 2);
+    ctx.arc(s * 0.42, -s * 0.98, s * 0.1, 0, Math.PI * 2);
     ctx.fill();
-    // Pupil
+    // pupil
     ctx.fillStyle = FG;
     ctx.beginPath();
-    ctx.arc(s * 0.28, -s * 0.89, s * 0.05, 0, Math.PI * 2);
+    ctx.arc(s * 0.44, -s * 0.99, s * 0.055, 0, Math.PI * 2);
     ctx.fill();
 
-    // Front arm
+    // ── Front arm holding basket ──────────────────────────────────
+    ctx.lineWidth = s * 0.2;
     ctx.beginPath();
-    ctx.ellipse(s * 0.42, -s * 0.04, s * 0.15, s * 0.3, 0.5, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Basket bowl
-    ctx.beginPath();
-    ctx.arc(s * 0.72, s * 0.32, s * 0.28, Math.PI, Math.PI * 2);
-    ctx.closePath();
-    ctx.fill();
-    // Basket handle
-    ctx.beginPath();
-    ctx.arc(s * 0.72, s * 0.06, s * 0.24, Math.PI * 1.15, Math.PI * 1.85);
-    ctx.lineWidth = s * 0.1;
+    ctx.moveTo(s * 0.36, -s * 0.18);
+    ctx.quadraticCurveTo(s * 0.72, s * 0.05, s * 0.88, s * 0.28);
     ctx.stroke();
+
+    // ── Basket (round bag) ────────────────────────────────────────
+    ctx.fillStyle = FG;
+    // bag body
+    ctx.beginPath();
+    ctx.arc(s * 1.05, s * 0.42, s * 0.3, 0, Math.PI * 2);
+    ctx.fill();
+    // bag highlight
+    ctx.fillStyle = BG;
+    ctx.beginPath();
+    ctx.arc(s * 0.97, s * 0.33, s * 0.12, 0, Math.PI * 2);
+    ctx.fill();
+    // bag neck
+    ctx.fillStyle = FG;
+    ctx.beginPath();
+    ctx.ellipse(s * 1.0, s * 0.15, s * 0.1, s * 0.14, 0, 0, Math.PI * 2);
+    ctx.fill();
 
     ctx.restore();
   }
